@@ -1,0 +1,132 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(LoginApp());
+
+class LoginApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Edit profile',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: LoginPage(),
+    );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final _formKey = GlobalKey<FormState>();
+  String _fullName = '';
+  String _email = '';
+  String _phoneNumber = '';
+
+  void _submitForm() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      // Replace this with your authentication logic
+      print('Full Name: $_fullName');
+      print('Email: $_email');
+      print('Phone Number: $_phoneNumber');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Edit Profile')),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Full Name',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                  ),
+                ),
+                style: TextStyle(fontSize: 14.0), // Adjust the font size here
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your full name';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _fullName = value!,
+              ),
+              SizedBox(height: 8.0), // Adjust the height here
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Emailaddress',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                  ),
+                ),
+                style: TextStyle(fontSize: 14.0), // Adjust the font size here
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _email = value!,
+              ),
+              SizedBox(height: 8.0), // Adjust the height here
+              TextFormField(
+                decoration: InputDecoration(
+                  labelText: 'Phone Number',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(4.0),
+                    ),
+                  ),
+                ),
+                style: TextStyle(fontSize: 14.0), // Adjust the font size here
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Please enter your phone number';
+                  }
+                  return null;
+                },
+                onSaved: (value) => _phoneNumber = value!,
+              ),
+              SizedBox(height: 16.0),
+              SizedBox(
+                height: 40.0, // Adjust the height here
+                width: double.infinity, // Adjust the width here
+                child: OutlinedButton(
+                  onPressed: _submitForm,
+                  style: ButtonStyle(
+                    side: MaterialStateProperty.all<BorderSide>(
+                      BorderSide(
+                        width: 1.0,
+                      ),
+                    ),
+                    shape: MaterialStateProperty.all<OutlinedBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.0),
+                      ),
+                    ),
+                  ),
+                  child: Text('Update'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
